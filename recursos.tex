@@ -1,0 +1,78 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{datatool}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{array} % Necesario para >{\raggedright\arraybackslash}
+\usepackage[margin=1.5cm]{geometry} % Márgenes ajustados
+\usepackage{fancyhdr} % Paquete para encabezados fijos
+
+
+\definecolor{ctabla}{RGB}{205, 225, 225}
+
+% 1. CARGA DE ARCHIVOS
+\DTLloaddb[autokeys=false, headers={COD,Descripcion,Monto,Porcentaje}]{presupuesto}{porcentajes_presupuesto_2025.csv}
+\DTLloaddb[autokeys=false, headers={Macrodistrito,Distrito,Monto,Porcentaje}]{fac}{macros.csv}
+
+% --- CONFIGURACIÓN DEL ENCABEZADO ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{ % Logo a la izquierda
+%    \includegraphics[width=3.5cm]{logo_alcaldia.png} % Asegúrate de tener este archivo
+}
+\fancyhead[R]{ % Texto institucional a la derecha
+    \small \textbf{FISCALIZACIÓN GAMLP} \\
+    \small \textit{Gestión 2025}
+}
+
+
+\begin{document}
+\section*{Presupuesto Municipal Gestión GAMLP 2025}
+\begin{small}
+\renewcommand{\arraystretch}{0.8} % Reduce el espacio entre filas para que quepa en una página
+\centering
+\begin{tabular}{l >{\raggedright\arraybackslash}p{9cm} r r} 
+  \toprule
+\textbf{COD} & \textbf{DIRECCIÓN ADMINISTRATIVA} & \textbf{MONTO (Bs)} & \textbf{\%} \\ 
+\midrule
+  \rowcolor{ctabla}
+\DTLforeach{presupuesto}{%
+    \vCod=COD, \vDesc=Descripcion, \vMonto=Monto, \vPorc=Porcentaje%
+}{%
+  \vCod & \vDesc & \vMonto & \vPorc\% \\\rowcolor{ctabla}
+
+}
+\textbf{--} & \textbf{TOTAL GENERAL EN BOLIVIANOS} & \textbf{1.737.058.874} & \textbf{100.00\%} \\
+\end{tabular}
+\end{small}
+
+
+\section*{Fondo de atención Ciudadana (FAC 2025)}
+
+\begin{small}
+\renewcommand{\arraystretch}{0.8} % Reduce el espacio entre filas para que quepa en una página
+\centering
+\begin{tabular}{p{4cm} p{6cm} r r} 
+\toprule
+\textbf{Macrodistrito} & \textbf{Distrito} & \textbf{Monto Bs.} & \textbf{\%} \\ 
+\midrule
+\rowcolor{ctabla}
+
+
+\DTLforeach{fac}{%
+    \vMac=Macrodistrito, \vDist=Distrito, \vMonto=Monto, \vPorc=Porce%
+}{%
+    \vMac & \vDist & \vMonto & \vPorc\% \\\rowcolor{ctabla}
+
+}
+
+\textbf{--} & \textbf{TOTAL EN BOLIVIANOS} & \textbf{160.000.000} & \textbf{100.00\%} \\
+
+\end{tabular}
+\end{small}
+
+
+\end{document}
