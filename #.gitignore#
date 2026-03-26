@@ -1,0 +1,4 @@
+#ignorate
+.tex~
+.aux
+.csv~   
