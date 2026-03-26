@@ -1,3 +1,4 @@
 #ignorate
 .tex~
 .aux
+.csv~
