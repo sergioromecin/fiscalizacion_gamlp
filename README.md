@@ -1,2 +1,2 @@
 # FISCALIZACION DE LOS RECURSO GAMLP 
-![Alt text](images/presupuesto2025.png)
+<img src="images/presupuesto2025.png" width="800" />
