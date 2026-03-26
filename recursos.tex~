@@ -1,0 +1,49 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{datatool}
+\usepackage{booktabs}
+% siunitx handles the decimal alignment
+\usepackage{siunitx} 
+
+% Configure siunitx for Bolivian formatting (dot for thousands, comma for decimals)
+\sisetup{
+  output-decimal-marker = {,},
+  % In older versions, we use 'group-separator' instead of 'thousands-separator'
+  group-separator = {.}, 
+  % Ensure it actually uses the separator
+  group-digits = true 
+}
+% 1. Load the database
+\DTLloaddb{presupuesto}{porcentajes_presupuesto_2025.csv}
+
+\begin{document}
+
+% 2. Safe retrieval for a specific item (COD 41)
+\DTLgetvalueforkey{\montoCuarentaUno}{Presupuesto (Bs)}{presupuesto}{COD}{41}
+
+La inversión asignada al código 41 es de **Bs. \montoCuarentaUno**.
+
+\begin{table}[ht]
+\centering
+\caption{Presupuesto Municipal Gestión 2025}
+\vspace{1em}
+% 'S' is the special siunitx column type for numbers
+\begin{tabular}{l l S[table-format=8.2] r} 
+\toprule
+\textbf{COD} & \textbf{Descripción} & {\textbf{Monto (Bs)}} & \textbf{\%} \\
+\midrule
+\DTLforeach{presupuesto}{%
+    \cod=COD, 
+    \desc=Descripción, 
+    \monto={Presupuesto (Bs)}, 
+    \porc={Porcentaje (\%)}%
+}{%
+    \cod & \desc & \monto & \porc \\ 
+}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}
